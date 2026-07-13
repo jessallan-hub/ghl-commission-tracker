@@ -631,13 +631,13 @@ async function buildCommissionClientSnapshot(
   const failedTransactions = transactions.filter(
     (transaction) => readString(transaction, ["status"])?.toLowerCase() === "failed",
   );
-  const paidOrders = orders.filter((order) =>
-    ["paid", "completed", "succeeded"].some((status) =>
-      `${readString(order, ["paymentStatus"]) ?? ""} ${readString(order, ["status"]) ?? ""}`
-        .toLowerCase()
-        .includes(status),
-    ),
-  );
+  const paidOrders = orders.filter((order) => {
+    const paidValues = ["paid", "completed", "succeeded"];
+    const paymentStatus = (readString(order, ["paymentStatus"]) ?? "").toLowerCase();
+    const status = (readString(order, ["status"]) ?? "").toLowerCase();
+    // Exact token match — a substring check would treat "unpaid" as "paid".
+    return paidValues.includes(paymentStatus) || paidValues.includes(status);
+  });
   const activeSubscriptions = subscriptions.filter(
     (subscription) =>
       readString(subscription, ["status"])?.toLowerCase() === "active",
