@@ -874,6 +874,30 @@ function CommissionTrackerPanel({
         </div>
       </div>
 
+      <section className="commission-agency-card" aria-label="RT Digital agency summary">
+        <div className="commission-agency-identity">
+          <div className="commission-agency-mark" aria-hidden="true">RT</div>
+          <div>
+            <strong>RT Digital</strong>
+            <span>Agency account — all client SaaS billing flows through here</span>
+          </div>
+        </div>
+        <div className="commission-agency-figures">
+          <div className="commission-agency-figure">
+            <span>SaaS Collected · Tracked</span>
+            <strong>{formatMoney(snapshot.totalCollected, true)}</strong>
+          </div>
+          <div className="commission-agency-figure">
+            <span>Pooled Commission (25%)</span>
+            <strong>{formatMoney(snapshot.totalCommissionEarned, true)}</strong>
+          </div>
+          <div className="commission-agency-figure">
+            <span>Tracked Clients</span>
+            <strong>{formatNumber(snapshot.clientCount)}</strong>
+          </div>
+        </div>
+      </section>
+
       <div className="commission-kpis">
         <CommissionMetric
           detail={`${formatMoney(snapshot.totalExcluded)} wallet charges excluded`}

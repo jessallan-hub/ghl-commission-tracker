@@ -1480,6 +1480,81 @@ td strong {
   text-transform: uppercase;
 }
 
+.commission-agency-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  border: 1px solid #b7ba9c;
+  border-radius: 10px;
+  background: linear-gradient(105deg, rgba(52, 76, 55, 0.1), rgba(255, 253, 246, 0.62));
+  padding: 22px 26px;
+}
+
+.commission-agency-identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 260px;
+}
+
+.commission-agency-mark {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  background: #344c37;
+  color: #f4f1e6;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.commission-agency-identity strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: 540;
+  color: #172423;
+  line-height: 1.1;
+}
+
+.commission-agency-identity span {
+  display: block;
+  margin-top: 2px;
+  color: #6d6f64;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.commission-agency-figures {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.commission-agency-figure span {
+  display: block;
+  color: #64675c;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.commission-agency-figure strong {
+  display: block;
+  margin-top: 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 500;
+  color: #172423;
+  line-height: 1;
+}
+
 .commission-kpis {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);
@@ -2621,6 +2696,16 @@ td {
   .commission-detail-head,
   .commission-payment-row {
     display: grid;
+  }
+
+  .commission-agency-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .commission-agency-figures {
+    gap: 20px 28px;
   }
 
   .commission-panel {
