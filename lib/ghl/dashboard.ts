@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const committedClientConfigs: unknown = require("../../config/commission-clients.json");
+
 import { ghlRequest } from "./client";
 import { getGhlConfig } from "./config";
 import { GHL_ENDPOINTS } from "./endpoints";
@@ -2059,21 +2062,20 @@ function buildContactConversations(
 }
 
 function loadCommissionClientConfigs(): CommissionClientConfig[] {
-  const candidates = [
-    join(process.cwd(), "config", COMMISSION_CONFIG_FILE),
-    join(process.cwd(), "config", "commission-clients.json"),
-  ];
+  const localPath = join(process.cwd(), "config", COMMISSION_CONFIG_FILE);
 
-  for (const configPath of candidates) {
-    try {
-      const parsed = JSON.parse(readFileSync(configPath, "utf8")) as unknown;
+  try {
+    const parsed = JSON.parse(readFileSync(localPath, "utf8")) as unknown;
 
-      if (Array.isArray(parsed)) {
-        return parsed.filter(isCommissionClientConfig);
-      }
-    } catch {
-      // try next candidate
+    if (Array.isArray(parsed)) {
+      return parsed.filter(isCommissionClientConfig);
     }
+  } catch {
+    // local override not present — fall through to bundled config
+  }
+
+  if (Array.isArray(committedClientConfigs)) {
+    return (committedClientConfigs as unknown[]).filter(isCommissionClientConfig);
   }
 
   return [];
