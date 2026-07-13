@@ -1245,7 +1245,7 @@ function ToolsModule({
           <form className="form-grid" onSubmit={onCreateContact}>
             <label>
               First name
-              <input name="firstName" defaultValue="Codex" />
+              <input name="firstName" defaultValue="Test" />
             </label>
             <label>
               Last name
@@ -1256,7 +1256,7 @@ function ToolsModule({
               <input
                 name="email"
                 type="email"
-                defaultValue="codex-test@example.com"
+                defaultValue="test@example.com"
               />
             </label>
             <label>
@@ -1265,7 +1265,7 @@ function ToolsModule({
             </label>
             <label className="full">
               Source
-              <input name="source" defaultValue="Codex local console" />
+              <input name="source" defaultValue="AgencyOS local console" />
             </label>
             <div className="actions full">
               <button
@@ -1291,7 +1291,7 @@ function ToolsModule({
               Note
               <textarea
                 name="body"
-                defaultValue="Test note from Codex local console."
+                defaultValue="Test note from AgencyOS local console."
               />
             </label>
             <div className="actions full">
