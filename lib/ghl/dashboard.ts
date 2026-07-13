@@ -217,7 +217,7 @@ async function listPaymentTransactionsForClient(agencyLocationId: string, contac
     GHL_ENDPOINTS.paymentTransactions,
     {
       action: "listPaymentTransactions",
-      query: { altId: agencyLocationId, altType: "location", contactId, limit: 100 },
+      query: { altId: agencyLocationId, altType: "location", contactId: contactId || undefined, limit: 100 },
     },
   );
 }
@@ -225,7 +225,7 @@ async function listPaymentTransactionsForClient(agencyLocationId: string, contac
 async function listPaymentOrdersForClient(agencyLocationId: string, contactId: string) {
   return ghlRequest<PaymentCollectionResponse>("GET", GHL_ENDPOINTS.paymentOrders, {
     action: "listPaymentOrders",
-    query: { altId: agencyLocationId, altType: "location", contactId, limit: 100 },
+    query: { altId: agencyLocationId, altType: "location", contactId: contactId || undefined, limit: 100 },
   });
 }
 
@@ -235,7 +235,7 @@ async function listPaymentSubscriptionsForClient(agencyLocationId: string, conta
     GHL_ENDPOINTS.paymentSubscriptions,
     {
       action: "listPaymentSubscriptions",
-      query: { altId: agencyLocationId, altType: "location", contactId, limit: 100 },
+      query: { altId: agencyLocationId, altType: "location", contactId: contactId || undefined, limit: 100 },
     },
   );
 }
@@ -243,7 +243,7 @@ async function listPaymentSubscriptionsForClient(agencyLocationId: string, conta
 async function listInvoicesForClient(agencyLocationId: string, contactId: string) {
   return ghlRequest<InvoiceCollectionResponse>("GET", GHL_ENDPOINTS.invoices, {
     action: "listInvoices",
-    query: { altId: agencyLocationId, altType: "location", contactId, limit: 100, offset: "0" },
+    query: { altId: agencyLocationId, altType: "location", contactId: contactId || undefined, limit: 100, offset: "0" },
   });
 }
 
