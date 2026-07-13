@@ -1,0 +1,13 @@
+node_modules
+.next
+.env
+.env*.local
+!.env.example
+*.log
+tsconfig.tsbuildinfo
+reports/
+config/*.local.json
+
+# old .next build snapshots (regenerable build cache, not source)
+archive-next-build-*/
+archive-next-stale-*/
