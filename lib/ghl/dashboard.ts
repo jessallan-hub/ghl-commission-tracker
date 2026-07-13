@@ -211,43 +211,39 @@ async function listWorkflowsForLocation(locationId: string, apiKey?: string) {
   });
 }
 
-async function listPaymentTransactionsForClient(locationId: string, apiKey: string) {
+async function listPaymentTransactionsForClient(agencyLocationId: string, contactId: string) {
   return ghlRequest<PaymentCollectionResponse>(
     "GET",
     GHL_ENDPOINTS.paymentTransactions,
     {
-      apiKey,
       action: "listPaymentTransactions",
-      query: { altId: locationId, altType: "location", limit: 100 },
+      query: { altId: agencyLocationId, altType: "location", contactId, limit: 100 },
     },
   );
 }
 
-async function listPaymentOrdersForClient(locationId: string, apiKey: string) {
+async function listPaymentOrdersForClient(agencyLocationId: string, contactId: string) {
   return ghlRequest<PaymentCollectionResponse>("GET", GHL_ENDPOINTS.paymentOrders, {
-    apiKey,
     action: "listPaymentOrders",
-    query: { altId: locationId, altType: "location", limit: 100 },
+    query: { altId: agencyLocationId, altType: "location", contactId, limit: 100 },
   });
 }
 
-async function listPaymentSubscriptionsForClient(locationId: string, apiKey: string) {
+async function listPaymentSubscriptionsForClient(agencyLocationId: string, contactId: string) {
   return ghlRequest<PaymentCollectionResponse>(
     "GET",
     GHL_ENDPOINTS.paymentSubscriptions,
     {
-      apiKey,
       action: "listPaymentSubscriptions",
-      query: { altId: locationId, altType: "location", limit: 100 },
+      query: { altId: agencyLocationId, altType: "location", contactId, limit: 100 },
     },
   );
 }
 
-async function listInvoicesForClient(locationId: string, apiKey: string) {
+async function listInvoicesForClient(agencyLocationId: string, contactId: string) {
   return ghlRequest<InvoiceCollectionResponse>("GET", GHL_ENDPOINTS.invoices, {
-    apiKey,
     action: "listInvoices",
-    query: { altId: locationId, altType: "location", limit: 100, offset: "0" },
+    query: { altId: agencyLocationId, altType: "location", contactId, limit: 100, offset: "0" },
   });
 }
 
@@ -601,22 +597,23 @@ export async function getCommissionTrackerSnapshot(): Promise<CommissionTrackerS
 async function buildCommissionClientSnapshot(
   config: CommissionClientConfig,
 ): Promise<CommissionClientSnapshot> {
-  const apiKey = config.apiKeyEnvVar ? (process.env[config.apiKeyEnvVar] ?? "") : "";
-  const locationId = config.locationId ?? "";
+  const ghlConfig = getGhlConfig();
+  const agencyLocationId = ghlConfig.locationId;
+  const contactId = config.contactId ?? "";
 
   const [transactionsResult, ordersResult, subscriptionsResult, invoicesResult] =
     await Promise.all([
       loadSource(`${config.id}:transactions`, () =>
-        listPaymentTransactionsForClient(locationId, apiKey),
+        listPaymentTransactionsForClient(agencyLocationId, contactId),
       ),
       loadSource(`${config.id}:orders`, () =>
-        listPaymentOrdersForClient(locationId, apiKey),
+        listPaymentOrdersForClient(agencyLocationId, contactId),
       ),
       loadSource(`${config.id}:subscriptions`, () =>
-        listPaymentSubscriptionsForClient(locationId, apiKey),
+        listPaymentSubscriptionsForClient(agencyLocationId, contactId),
       ),
       loadSource(`${config.id}:invoices`, () =>
-        listInvoicesForClient(locationId, apiKey),
+        listInvoicesForClient(agencyLocationId, contactId),
       ),
     ]);
   const transactions = getRecords(transactionsResult.data, "data");
@@ -700,7 +697,7 @@ async function buildCommissionClientSnapshot(
     id: config.id,
     name: config.name,
     accountName: config.accountName ?? config.name,
-    locationId: config.locationId,
+    locationId: config.locationId ?? "",
     status,
     commissionRate: config.commissionRate,
     setupFee: config.setupFee,
@@ -2094,7 +2091,6 @@ function isCommissionClientConfig(
   return Boolean(
     readString(value, ["id"]) &&
       readString(value, ["name"]) &&
-      readString(value, ["apiKeyEnvVar"]) &&
       typeof value.setupFee === "number" &&
       typeof value.monthlySaasFee === "number" &&
       typeof value.commissionRate === "number",

@@ -408,9 +408,9 @@ export type CommissionClientConfig = {
   id: string;
   name: string;
   accountName?: string;
-  locationId: string;
-  apiKeyEnvVar: string;
   contactId?: string;
+  locationId?: string;
+  apiKeyEnvVar?: string;
   setupFee: number;
   monthlySaasFee: number;
   commissionRate: number;
