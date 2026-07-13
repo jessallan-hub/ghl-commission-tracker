@@ -1,8 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const committedClientConfigs: unknown = require("../../config/commission-clients.json");
+import committedClientConfigs from "../../config/commission-clients.json";
 
 import { ghlRequest } from "./client";
 import { getGhlConfig } from "./config";
@@ -2068,7 +2067,11 @@ function loadCommissionClientConfigs(): CommissionClientConfig[] {
     const parsed = JSON.parse(readFileSync(localPath, "utf8")) as unknown;
 
     if (Array.isArray(parsed)) {
-      return parsed.filter(isCommissionClientConfig);
+      const valid = parsed.filter(isCommissionClientConfig);
+
+      if (valid.length > 0) {
+        return valid;
+      }
     }
   } catch {
     // local override not present — fall through to bundled config
