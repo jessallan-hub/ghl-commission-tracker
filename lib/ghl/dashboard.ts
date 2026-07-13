@@ -601,21 +601,26 @@ async function buildCommissionClientSnapshot(
   const agencyLocationId = ghlConfig.locationId;
   const contactId = config.contactId ?? "";
 
+  // Without a contactId the payment endpoints return the ENTIRE agency history,
+  // which would be misattributed to this client. Skip the fetch and report zeros.
+  const emptyResult: SourceResult<PaymentCollectionResponse> = { data: undefined };
   const [transactionsResult, ordersResult, subscriptionsResult, invoicesResult] =
-    await Promise.all([
-      loadSource(`${config.id}:transactions`, () =>
-        listPaymentTransactionsForClient(agencyLocationId, contactId),
-      ),
-      loadSource(`${config.id}:orders`, () =>
-        listPaymentOrdersForClient(agencyLocationId, contactId),
-      ),
-      loadSource(`${config.id}:subscriptions`, () =>
-        listPaymentSubscriptionsForClient(agencyLocationId, contactId),
-      ),
-      loadSource(`${config.id}:invoices`, () =>
-        listInvoicesForClient(agencyLocationId, contactId),
-      ),
-    ]);
+    contactId
+      ? await Promise.all([
+          loadSource(`${config.id}:transactions`, () =>
+            listPaymentTransactionsForClient(agencyLocationId, contactId),
+          ),
+          loadSource(`${config.id}:orders`, () =>
+            listPaymentOrdersForClient(agencyLocationId, contactId),
+          ),
+          loadSource(`${config.id}:subscriptions`, () =>
+            listPaymentSubscriptionsForClient(agencyLocationId, contactId),
+          ),
+          loadSource(`${config.id}:invoices`, () =>
+            listInvoicesForClient(agencyLocationId, contactId),
+          ),
+        ])
+      : [emptyResult, emptyResult, emptyResult, emptyResult];
   const transactions = getRecords(transactionsResult.data, "data");
   const orders = getRecords(ordersResult.data, "data");
   const subscriptions = getRecords(subscriptionsResult.data, "data");
