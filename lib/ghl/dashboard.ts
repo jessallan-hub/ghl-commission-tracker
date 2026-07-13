@@ -209,50 +209,43 @@ async function listWorkflowsForLocation(locationId: string, apiKey?: string) {
   });
 }
 
-async function listPaymentTransactionsForContact(contactId: string) {
-  const config = getGhlConfig();
-
+async function listPaymentTransactionsForClient(locationId: string, apiKey: string) {
   return ghlRequest<PaymentCollectionResponse>(
     "GET",
     GHL_ENDPOINTS.paymentTransactions,
     {
+      apiKey,
       action: "listPaymentTransactions",
-      query: paymentQuery(config.locationId, contactId),
+      query: { altId: locationId, altType: "location", limit: 100 },
     },
   );
 }
 
-async function listPaymentOrdersForContact(contactId: string) {
-  const config = getGhlConfig();
-
+async function listPaymentOrdersForClient(locationId: string, apiKey: string) {
   return ghlRequest<PaymentCollectionResponse>("GET", GHL_ENDPOINTS.paymentOrders, {
+    apiKey,
     action: "listPaymentOrders",
-    query: paymentQuery(config.locationId, contactId),
+    query: { altId: locationId, altType: "location", limit: 100 },
   });
 }
 
-async function listPaymentSubscriptionsForContact(contactId: string) {
-  const config = getGhlConfig();
-
+async function listPaymentSubscriptionsForClient(locationId: string, apiKey: string) {
   return ghlRequest<PaymentCollectionResponse>(
     "GET",
     GHL_ENDPOINTS.paymentSubscriptions,
     {
+      apiKey,
       action: "listPaymentSubscriptions",
-      query: paymentQuery(config.locationId, contactId),
+      query: { altId: locationId, altType: "location", limit: 100 },
     },
   );
 }
 
-async function listInvoicesForContact(contactId: string) {
-  const config = getGhlConfig();
-
+async function listInvoicesForClient(locationId: string, apiKey: string) {
   return ghlRequest<InvoiceCollectionResponse>("GET", GHL_ENDPOINTS.invoices, {
+    apiKey,
     action: "listInvoices",
-    query: {
-      ...paymentQuery(config.locationId, contactId),
-      offset: "0",
-    },
+    query: { altId: locationId, altType: "location", limit: 100, offset: "0" },
   });
 }
 
@@ -606,19 +599,22 @@ export async function getCommissionTrackerSnapshot(): Promise<CommissionTrackerS
 async function buildCommissionClientSnapshot(
   config: CommissionClientConfig,
 ): Promise<CommissionClientSnapshot> {
+  const apiKey = config.apiKeyEnvVar ? (process.env[config.apiKeyEnvVar] ?? "") : "";
+  const locationId = config.locationId ?? "";
+
   const [transactionsResult, ordersResult, subscriptionsResult, invoicesResult] =
     await Promise.all([
       loadSource(`${config.id}:transactions`, () =>
-        listPaymentTransactionsForContact(config.contactId),
+        listPaymentTransactionsForClient(locationId, apiKey),
       ),
       loadSource(`${config.id}:orders`, () =>
-        listPaymentOrdersForContact(config.contactId),
+        listPaymentOrdersForClient(locationId, apiKey),
       ),
       loadSource(`${config.id}:subscriptions`, () =>
-        listPaymentSubscriptionsForContact(config.contactId),
+        listPaymentSubscriptionsForClient(locationId, apiKey),
       ),
       loadSource(`${config.id}:invoices`, () =>
-        listInvoicesForContact(config.contactId),
+        listInvoicesForClient(locationId, apiKey),
       ),
     ]);
   const transactions = getRecords(transactionsResult.data, "data");
@@ -702,7 +698,7 @@ async function buildCommissionClientSnapshot(
     id: config.id,
     name: config.name,
     accountName: config.accountName ?? config.name,
-    contactId: config.contactId,
+    locationId: config.locationId,
     status,
     commissionRate: config.commissionRate,
     setupFee: config.setupFee,
@@ -2093,7 +2089,7 @@ function isCommissionClientConfig(
   return Boolean(
     readString(value, ["id"]) &&
       readString(value, ["name"]) &&
-      readString(value, ["contactId"]) &&
+      readString(value, ["apiKeyEnvVar"]) &&
       typeof value.setupFee === "number" &&
       typeof value.monthlySaasFee === "number" &&
       typeof value.commissionRate === "number",

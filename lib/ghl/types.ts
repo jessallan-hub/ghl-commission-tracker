@@ -408,11 +408,13 @@ export type CommissionClientConfig = {
   id: string;
   name: string;
   accountName?: string;
-  contactId: string;
+  locationId: string;
+  apiKeyEnvVar: string;
+  contactId?: string;
   setupFee: number;
   monthlySaasFee: number;
   commissionRate: number;
-  status?: "active" | "watch" | "terms-needed" | string;
+  status?: "active" | "watch" | "attention" | "terms-needed" | string;
   notes?: string[];
 };
 
@@ -439,7 +441,7 @@ export type CommissionClientSnapshot = {
   id: string;
   name: string;
   accountName: string;
-  contactId: string;
+  locationId: string;
   status: "active" | "attention" | "quiet" | "terms-needed";
   commissionRate: number;
   setupFee: number;

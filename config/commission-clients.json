@@ -2,30 +2,32 @@
   {
     "id": "scott-lambert",
     "name": "Scott Lambert",
-    "accountName": "Scott Lambert",
-    "contactId": "y8eh1WsBLGM10kzXkm4D",
+    "accountName": "Doctor Damp",
+    "locationId": "PkoELbKfvhIzmaYMsV4r",
+    "apiKeyEnvVar": "GHL_DOCTOR_DAMP_API_KEY",
     "setupFee": 8250,
     "monthlySaasFee": 2000,
     "commissionRate": 0.25,
     "status": "active",
     "notes": [
-      "Setup fee appears as a paid completed order in GHL.",
-      "Active subscription found."
+      "Payments fetched from Doctor Damp sub-account.",
+      "Setup fee $8,250 one-time. Monthly SaaS $2,000."
     ]
   },
   {
     "id": "chris-mcbreen",
     "name": "Chris McBreen",
-    "accountName": "Chris McBreen",
-    "contactId": "WAUuVZR2osEi6PcHL1Br",
+    "accountName": "Strategize",
+    "locationId": "4AluOissr6nHFgexPPBk",
+    "apiKeyEnvVar": "GHL_STRATEGIZE_API_KEY",
     "setupFee": 4000,
     "monthlySaasFee": 2200,
     "commissionRate": 0.25,
     "status": "attention",
     "notes": [
+      "Payments fetched from Strategize sub-account.",
       "Upgraded from V1 to V2 SaaS plan.",
       "$8,250 V2 setup fee pending in GHL — not yet succeeded, not counted.",
-      "Monthly recurring $2,200 succeeded Jul 7 2026.",
       "Multiple failed payment attempts on record — monitor closely."
     ]
   },
@@ -33,7 +35,8 @@
     "id": "ben-baker",
     "name": "Ben Baker",
     "accountName": "Awarepreneur Tribe",
-    "contactId": "Y836uZSA3pTD22hYZc3o",
+    "locationId": "",
+    "apiKeyEnvVar": "GHL_AWAREPRENEUR_API_KEY",
     "setupFee": 0,
     "monthlySaasFee": 0,
     "commissionRate": 0.25,
