@@ -2063,19 +2063,24 @@ function buildContactConversations(
 }
 
 function loadCommissionClientConfigs(): CommissionClientConfig[] {
-  const configPath = join(process.cwd(), "config", COMMISSION_CONFIG_FILE);
+  const candidates = [
+    join(process.cwd(), "config", COMMISSION_CONFIG_FILE),
+    join(process.cwd(), "config", "commission-clients.json"),
+  ];
 
-  try {
-    const parsed = JSON.parse(readFileSync(configPath, "utf8")) as unknown;
+  for (const configPath of candidates) {
+    try {
+      const parsed = JSON.parse(readFileSync(configPath, "utf8")) as unknown;
 
-    if (!Array.isArray(parsed)) {
-      return [];
+      if (Array.isArray(parsed)) {
+        return parsed.filter(isCommissionClientConfig);
+      }
+    } catch {
+      // try next candidate
     }
-
-    return parsed.filter(isCommissionClientConfig);
-  } catch {
-    return [];
   }
+
+  return [];
 }
 
 function isCommissionClientConfig(
