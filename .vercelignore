@@ -1,0 +1,4 @@
+# Local-only overrides — never ship to Vercel.
+# The committed config/commission-clients.json is the source of truth in prod.
+config/commission-clients.local.json
+.env*.local
