@@ -18,13 +18,13 @@
     "name": "Chris McBreen",
     "accountName": "Chris McBreen",
     "contactId": "WAUuVZR2osEi6PcHL1Br",
-    "setupFee": 8250,
+    "setupFee": 4000,
     "monthlySaasFee": 2200,
     "commissionRate": 0.25,
     "status": "attention",
     "notes": [
       "Upgraded from V1 to V2 SaaS plan.",
-      "$8,250 setup fee pending as of Jul 6 2026 — charge may be stuck or retrying.",
+      "$8,250 V2 setup fee pending in GHL — not yet succeeded, not counted.",
       "Monthly recurring $2,200 succeeded Jul 7 2026.",
       "Multiple failed payment attempts on record — monitor closely."
     ]
