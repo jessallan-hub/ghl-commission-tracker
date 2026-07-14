@@ -1056,7 +1056,7 @@ function CommissionTrackerPanel({
 const ACTIVE_BOOK_FLAG_LABELS: Record<string, string> = {
   ok: "",
   "not-in-pipeline": "Not in pipeline",
-  "paying-but-marked-inactive": "Paying — marked cancelled",
+  "paying-but-marked-inactive": "Paying — exiting (contract run-off)",
   "no-billing": "No billing",
   "paused-billing": "Billing paused",
 };
