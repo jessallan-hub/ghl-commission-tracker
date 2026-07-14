@@ -694,7 +694,9 @@ export async function getActiveBookSnapshot(): Promise<ActiveBookSnapshot> {
 
     const resolved = resolvedContacts.get(contactId);
 
-    if (!resolved?.name) {
+    // Deleted contacts AND obvious test records (e.g. "hot buyer") are phantom,
+    // not real clients — leftovers from checkout testing.
+    if (!resolved?.name || /\b(test|tester|buyer|buyy|dummy|sample)\b/i.test(resolved.name)) {
       phantomMrr += mrr;
       phantomCount += 1;
       continue;
