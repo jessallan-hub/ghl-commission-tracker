@@ -118,7 +118,7 @@ subscriptions** (paginated), resolves unmatched contacts, and classifies:
 ## The hidden-revenue discoveries (why pipeline ≠ money)
 
 Confirmed 2026-07-13 by sweeping the full RT Digital ledger (773 transactions, 148 subs,
-31 invoices). The pipeline alone showed ~$5,000/mo; **real active MRR is ~$10,750/mo**:
+31 invoices). The pipeline alone showed ~$5,000/mo; **real active MRR is ~$12,250/mo (incl. Veronica's $1,500 off-platform)**:
 
 1. **Duplicate contact cards** — "David and Evan" opp links contact `ngnjjmNWQSXYsk2sTj1q`
    ($13,750), but David Mahoney's **$2,500/mo sub + $19,250** sit on a second card
@@ -128,7 +128,7 @@ Confirmed 2026-07-13 by sweeping the full RT Digital ledger (773 transactions, 1
 3. **Contract run-off** — Patrick Franzini ($1,000/mo), Emily Scothern ($500/mo), Melissa
    Arlitsch ($250/mo) are **exiting clients paying out contracts** while staged Cancelled.
    Per Jesse this is expected, NOT mismanagement — but it means ~$1,750/mo of MRR is
-   time-limited; durable book ≈ **$9,000/mo**.
+   time-limited; durable book ≈ **$10,500/mo**.
 4. **~14 phantom test subs** (~$3,500/mo fake MRR), batch-created 2026-04-21/22 on
    deleted/test contacts ("hot buyer" etc.). Excluded from Real MRR; should be cancelled in
    GHL. Note: "hot buyer" resolves with a name so it sneaks into Real MRR (+$250) — known
@@ -139,8 +139,8 @@ $22,650), **$46,200 sent-but-unpaid invoices** (Martin Speiser alone 9 × $3,300
 
 **Scott reactivation plan (set 2026-07-14):** goal is to **unpause Scott's $2,000/mo sub
 Friday 2026-07-17, with a one-month grace period** — first charge lands ~2026-08-17. Book
-returns to $12,750/mo from mid-August (Jesse's share under the proposed CSM deal:
-$4,937.50/mo ≈ $1,139/wk). Expect **no Scott payment between Jun 16 and ~Aug 17** — that
+returns to $14,250/mo from mid-August (Jesse's share under the proposed CSM deal:
+$5,312.50/mo ≈ $1,226/wk). Expect **no Scott payment between Jun 16 and ~Aug 17** — that
 gap is planned grace, not churn; don't flag it as a failed recovery. Commission on Scott's
 monthlies resumes with the first post-grace charge.
 Cancelled stage holds 30 opps (~$168,600 lifetime value) vs 15 active — the churn story.
@@ -150,10 +150,10 @@ Cancelled stage holds 30 opps (~$168,600 lifetime value) vs 15 active — the ch
   expected in GHL by design; not revenue leaks, don't chase. (Ben = AT; separate $250/mo +
   mentoring arrangement pending AT launch.)
 - **Jennifer Bell = LV Solar = Alf Privitera's $1,500/mo sub.** Accounted for.
-- **Veronica Jones / Anstey Homes — open question.** Zero billing footprint in GHL across
-  all 4 Anstey contact cards (Veronica, Phil Anstey, Cristina, company card) — no
-  transactions, subs, or invoices. Either pays outside GHL or unbilled; ask Jesse/Rich.
-  Possible future enhancement: `manualMrr` config field for off-platform billers.
+- **Veronica Jones / Anstey Homes — RESOLVED: $1,500/mo paid outside GHL** (confirmed
+  manually by Jesse 2026-07-14). Recorded in `config/manual-mrr.json`, which the Active
+  Book panel merges in with an "Off-platform billing (manual)" flag. Zero GHL footprint is
+  expected for this client — don't re-investigate.
 
 ## Commercial state (as of 2026-07-13)
 
@@ -163,7 +163,7 @@ Cancelled stage holds 30 opps (~$168,600 lifetime value) vs 15 active — the ch
   Basis: **Rich defines the net** (Scott $7,500 gross → $5,000 net); monthlies net of GST.
   Jesse **is GST registered**. Artifact: claude.ai/code/artifact/7598105e-…
 - **CSM offer to Rich (drafted, not yet sent): $1,750/mo base + 25% of collected
-  active-book MRR net of GST** ≈ $4,440/mo ≈ $1,024/wk at today's book. Replaces per-client
+  active-book MRR net of GST** ≈ $4,812/mo ≈ $1,110/wk at today's book ($12,250 incl. off-platform). Replaces per-client
   monthly commissions going forward; INV-0001 stands; 30-day exit. Negotiation notes: at 25%,
   run-off completion costs Jesse ~$437/mo (self-underwritten churn risk — use as counter);
   fallback structure $1,000 base + 30%. Artifact: claude.ai/code/artifact/c17e41aa-…
