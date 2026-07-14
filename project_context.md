@@ -138,6 +138,15 @@ Recovery pools: Scott's **paused $2,000/mo** sub, **$26,500 failed payments** (m
 $22,650), **$46,200 sent-but-unpaid invoices** (Martin Speiser alone 9 × $3,300).
 Cancelled stage holds 30 opps (~$168,600 lifetime value) vs 15 active — the churn story.
 
+**No-billing clients, resolved per Jesse (2026-07-13):**
+- **Bear Olive & Ben Baker — don't chase.** Known situations (Ben = AT, terms pending);
+  not revenue leaks, leave them alone.
+- **Jennifer Bell = LV Solar = Alf Privitera's $1,500/mo sub.** Accounted for.
+- **Veronica Jones / Anstey Homes — open question.** Zero billing footprint in GHL across
+  all 4 Anstey contact cards (Veronica, Phil Anstey, Cristina, company card) — no
+  transactions, subs, or invoices. Either pays outside GHL or unbilled; ask Jesse/Rich.
+  Possible future enhancement: `manualMrr` config field for off-platform billers.
+
 ## Commercial state (as of 2026-07-13)
 
 - **Invoice INV-0001 to eighteen network Pty Ltd: $4,675 inc GST** ($4,250 + $425).
