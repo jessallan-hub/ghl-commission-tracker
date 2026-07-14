@@ -899,10 +899,6 @@ function CommissionTrackerPanel({
         </div>
       </section>
 
-      {snapshot.activeBook ? (
-        <ActiveBookPanel book={snapshot.activeBook} />
-      ) : null}
-
       <div className="commission-kpis">
         <CommissionMetric
           detail={`${formatMoney(snapshot.totalExcluded)} wallet charges excluded`}
@@ -1033,6 +1029,10 @@ function CommissionTrackerPanel({
         <div className="commission-mobile-detail">
           <CommissionClientDetail client={selectedClient} />
         </div>
+      ) : null}
+
+      {snapshot.activeBook ? (
+        <ActiveBookPanel book={snapshot.activeBook} />
       ) : null}
 
       {snapshot.notes.length ? (
