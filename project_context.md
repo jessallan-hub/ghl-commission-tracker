@@ -158,14 +158,14 @@ Cancelled stage holds 30 opps (~$168,600 lifetime value) vs 15 active — the ch
 
 ## Commercial state (as of 2026-07-13)
 
-- **Invoice INV-0001 to eighteen network Pty Ltd: $4,675 inc GST** ($4,250 + $425).
+- **Invoice INV-0054 to eighteen network Pty Ltd: $4,675 inc GST** ($4,250 + $425).
   Lines: Scott setup 25%×$5,000 net = $1,250; Scott monthlies 2×(25%×$2,000) = $1,000;
   Chris setup 25%×$4,000 = $1,000; Chris monthly 25%×$2,000 = $500; AT onboarding $500.
   Basis: **Rich defines the net** (Scott $7,500 gross → $5,000 net); monthlies net of GST.
   Jesse **is GST registered**. Artifact: claude.ai/code/artifact/7598105e-…
 - **CSM offer to Rich (drafted, not yet sent): $1,750/mo base + 25% of collected
   active-book MRR net of GST** ≈ $4,812/mo ≈ $1,110/wk at today's book ($12,250 incl. off-platform). Replaces per-client
-  monthly commissions going forward; INV-0001 stands; 30-day exit. Negotiation notes: at 25%,
+  monthly commissions going forward; INV-0054 stands; 30-day exit. Negotiation notes: at 25%,
   run-off completion costs Jesse ~$437/mo (self-underwritten churn risk — use as counter);
   fallback structure $1,000 base + 30%. Artifact: claude.ai/code/artifact/c17e41aa-…
 - Separate AT deal: $250/mo CSM retainer + "Cooker Burr's Clan" mentoring access
