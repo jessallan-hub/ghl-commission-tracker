@@ -1,6 +1,7 @@
 "use client";
 
 import type {
+  ActiveBookSnapshot,
   ActiveClientDetail,
   AiAgentEffectivenessSnapshot,
   CommissionClientSnapshot,
@@ -898,6 +899,10 @@ function CommissionTrackerPanel({
         </div>
       </section>
 
+      {snapshot.activeBook ? (
+        <ActiveBookPanel book={snapshot.activeBook} />
+      ) : null}
+
       <div className="commission-kpis">
         <CommissionMetric
           detail={`${formatMoney(snapshot.totalExcluded)} wallet charges excluded`}
@@ -1043,6 +1048,89 @@ function CommissionTrackerPanel({
           <strong>Partial payment access:</strong>{" "}
           {snapshot.accessIssues.map((issue) => issue.source).join(", ")}
         </section>
+      ) : null}
+    </section>
+  );
+}
+
+const ACTIVE_BOOK_FLAG_LABELS: Record<string, string> = {
+  ok: "",
+  "not-in-pipeline": "Not in pipeline",
+  "paying-but-marked-inactive": "Paying — marked cancelled",
+  "no-billing": "No billing",
+  "paused-billing": "Billing paused",
+};
+
+function ActiveBookPanel({ book }: { book: ActiveBookSnapshot }) {
+  return (
+    <section className="active-book" aria-label="Active clients live revenue">
+      <div className="active-book-head">
+        <div>
+          <h3>Active Clients — Live Revenue</h3>
+          <p>
+            From the “{book.pipelineName}” pipeline + live GHL subscriptions.
+            Cancelled/Exiting excluded.
+          </p>
+        </div>
+        <div className="active-book-stats">
+          <div className="active-book-stat">
+            <span>Real MRR</span>
+            <strong>{formatMoney(book.realMrr)}/mo</strong>
+          </div>
+          <div className="active-book-stat">
+            <span>Paused MRR</span>
+            <strong>{formatMoney(book.pausedMrr)}/mo</strong>
+          </div>
+          <div className="active-book-stat">
+            <span>Paying clients</span>
+            <strong>{formatNumber(book.payingClientCount)}</strong>
+          </div>
+          <div className="active-book-stat warning">
+            <span>Phantom subs excluded</span>
+            <strong>
+              {formatNumber(book.phantomCount)} · {formatMoney(book.phantomMrr)}/mo
+            </strong>
+          </div>
+        </div>
+      </div>
+      <div className="active-book-table-wrap">
+        <table className="active-book-table">
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Stage</th>
+              <th className="num">MRR</th>
+              <th>Since</th>
+              <th>Flag</th>
+            </tr>
+          </thead>
+          <tbody>
+            {book.clients.map((client) => (
+              <tr
+                key={`${client.contactId}-${client.flag}`}
+                className={client.flag && client.flag !== "ok" ? `flag-${client.flag}` : ""}
+              >
+                <td>
+                  {client.name}
+                  {client.company ? <small> · {client.company}</small> : null}
+                </td>
+                <td>{client.stage ?? "—"}</td>
+                <td className="num">
+                  {client.mrr > 0 ? `${formatMoney(client.mrr)}/mo` : "—"}
+                </td>
+                <td>{client.subscriptionSince ? formatDate(client.subscriptionSince).split(",")[0] : "—"}</td>
+                <td>{ACTIVE_BOOK_FLAG_LABELS[client.flag ?? "ok"]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {book.notes.length ? (
+        <div className="active-book-notes">
+          {book.notes.map((note) => (
+            <span key={note}>{note}</span>
+          ))}
+        </div>
       ) : null}
     </section>
   );

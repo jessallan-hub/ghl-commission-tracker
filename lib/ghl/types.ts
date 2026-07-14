@@ -471,6 +471,29 @@ export type CommissionClientSnapshot = {
   accessIssues: MissionControlAccessIssue[];
 };
 
+export type ActiveBookClient = {
+  contactId: string;
+  name: string;
+  company?: string;
+  stage?: string;
+  mrr: number;
+  subscriptionSince?: string;
+  flag?: "ok" | "not-in-pipeline" | "paying-but-marked-inactive" | "no-billing" | "paused-billing";
+};
+
+export type ActiveBookSnapshot = {
+  pipelineName: string;
+  realMrr: number;
+  pausedMrr: number;
+  phantomMrr: number;
+  phantomCount: number;
+  payingClientCount: number;
+  noBillingCount: number;
+  clients: ActiveBookClient[];
+  accessIssues: MissionControlAccessIssue[];
+  notes: string[];
+};
+
 export type CommissionTrackerSnapshot = {
   accountName: string;
   generatedAt: string;
@@ -485,6 +508,7 @@ export type CommissionTrackerSnapshot = {
   failedPaymentCount: number;
   attentionCount: number;
   activeSubscriptionCount: number;
+  activeBook: ActiveBookSnapshot | null;
   clients: CommissionClientSnapshot[];
   ledger: CommissionLedgerMonth[];
   notes: string[];

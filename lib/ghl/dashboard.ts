@@ -8,6 +8,8 @@ import { getGhlConfig } from "./config";
 import { GHL_ENDPOINTS } from "./endpoints";
 import { GhlApiError } from "./errors";
 import type {
+  ActiveBookClient,
+  ActiveBookSnapshot,
   ActiveClientDetail,
   ActiveClientDetailAppointment,
   ActiveClientDetailContact,
@@ -553,12 +555,216 @@ export async function getDoctorDampWorkflowIntelligenceSnapshot(
   };
 }
 
+async function listAllLocationSubscriptions(locationId: string) {
+  const all: GhlRecord[] = [];
+
+  for (let offset = 0; offset < 500; offset += 100) {
+    const page = await ghlRequest<PaymentCollectionResponse>(
+      "GET",
+      GHL_ENDPOINTS.paymentSubscriptions,
+      {
+        action: "listAllSubscriptions",
+        query: { altId: locationId, altType: "location", limit: 100, offset },
+      },
+    );
+    const rows = getRecords(page, "data");
+    all.push(...rows);
+
+    if (rows.length < 100) {
+      break;
+    }
+  }
+
+  return all;
+}
+
+const ACTIVE_BOOK_INACTIVE_STAGES = /cancel|exit/i;
+
+export async function getActiveBookSnapshot(): Promise<ActiveBookSnapshot> {
+  const accessIssues: MissionControlAccessIssue[] = [];
+  const config = getGhlConfig();
+  const pipelinesResult = await loadSource("activeBookPipelines", listPipelines);
+
+  if (pipelinesResult.issue) accessIssues.push(pipelinesResult.issue);
+
+  const pipelines = getRecords(pipelinesResult.data, "pipelines");
+  const activePipeline = pipelines.find((p) =>
+    (readString(p, ["name"]) ?? "").toLowerCase().includes("active clients"),
+  );
+  const pipelineId = readString(activePipeline ?? {}, ["id"]) ?? "";
+  const stageNames = new Map<string, string>();
+
+  for (const stage of getRecords(activePipeline ?? {}, "stages")) {
+    const id = readString(stage, ["id"]);
+    if (id) stageNames.set(id, readString(stage, ["name"]) ?? "Unknown stage");
+  }
+
+  const oppsResult = pipelineId
+    ? await loadSource("activeBookOpportunities", () =>
+        listOpportunities({ pipelineId, limit: 100 }),
+      )
+    : ({ data: undefined } satisfies SourceResult<ListOpportunitiesResponse>);
+
+  if (oppsResult.issue) accessIssues.push(oppsResult.issue);
+
+  const opportunities = getRecords(oppsResult.data, "opportunities");
+  const oppByContact = new Map<string, { name: string; stage: string }>();
+
+  for (const opp of opportunities) {
+    const contactId =
+      readString(opp, ["contactId"]) ?? readPathString(opp, ["contact.id"]) ?? "";
+    if (!contactId) continue;
+    const stage =
+      stageNames.get(readString(opp, ["pipelineStageId"]) ?? "") ?? "Unknown stage";
+    oppByContact.set(contactId, {
+      name: readString(opp, ["name"]) ?? "Unnamed client",
+      stage,
+    });
+  }
+
+  const subsResult = await loadSource("activeBookSubscriptions", () =>
+    listAllLocationSubscriptions(config.locationId),
+  );
+
+  if (subsResult.issue) accessIssues.push(subsResult.issue);
+
+  const subscriptions = subsResult.data ?? [];
+  const activeSubs = subscriptions.filter(
+    (s) => readString(s, ["status"])?.toLowerCase() === "active",
+  );
+  const pausedSubs = subscriptions.filter(
+    (s) => readString(s, ["status"])?.toLowerCase() === "paused",
+  );
+
+  // Resolve contacts for active subs that have no pipeline match, so phantom/test
+  // subscriptions (deleted or nameless contacts) can be separated from real clients.
+  const unmatchedIds = [
+    ...new Set(
+      activeSubs
+        .map((s) => readString(s, ["contactId"]) ?? "")
+        .filter((cid) => cid && !oppByContact.has(cid)),
+    ),
+  ];
+  const resolvedContacts = new Map<string, { name: string; company?: string }>();
+
+  await Promise.all(
+    unmatchedIds.map(async (cid) => {
+      const result = await loadSource("activeBookContact", () => getContact(cid));
+      const contact = isRecord(result.data?.contact) ? result.data.contact : {};
+      const name = [
+        readString(contact, ["firstName"]),
+        readString(contact, ["lastName"]),
+      ]
+        .filter(Boolean)
+        .join(" ");
+      resolvedContacts.set(cid, {
+        name,
+        company: readString(contact, ["companyName"]),
+      });
+    }),
+  );
+
+  const clients: ActiveBookClient[] = [];
+  let realMrr = 0;
+  let phantomMrr = 0;
+  let phantomCount = 0;
+  const billedContactIds = new Set<string>();
+
+  for (const sub of activeSubs) {
+    const contactId = readString(sub, ["contactId"]) ?? "";
+    const mrr = readNumber(sub, ["amount"], 0);
+    const since = readDateString(sub, ["createdAt"]);
+    const opp = oppByContact.get(contactId);
+
+    if (opp) {
+      billedContactIds.add(contactId);
+      const inactive = ACTIVE_BOOK_INACTIVE_STAGES.test(opp.stage);
+      realMrr += mrr;
+      clients.push({
+        contactId,
+        name: opp.name,
+        stage: opp.stage,
+        mrr,
+        subscriptionSince: since,
+        flag: inactive ? "paying-but-marked-inactive" : "ok",
+      });
+      continue;
+    }
+
+    const resolved = resolvedContacts.get(contactId);
+
+    if (!resolved?.name) {
+      phantomMrr += mrr;
+      phantomCount += 1;
+      continue;
+    }
+
+    realMrr += mrr;
+    clients.push({
+      contactId,
+      name: resolved.name,
+      company: resolved.company,
+      mrr,
+      subscriptionSince: since,
+      flag: "not-in-pipeline",
+    });
+  }
+
+  let pausedMrr = 0;
+
+  for (const [contactId, opp] of oppByContact) {
+    if (billedContactIds.has(contactId)) continue;
+    if (ACTIVE_BOOK_INACTIVE_STAGES.test(opp.stage)) continue;
+    const paused = pausedSubs.find(
+      (s) => readString(s, ["contactId"]) === contactId,
+    );
+    const pausedAmount = paused ? readNumber(paused, ["amount"], 0) : 0;
+    pausedMrr += pausedAmount;
+    clients.push({
+      contactId,
+      name: opp.name,
+      stage: opp.stage,
+      mrr: 0,
+      flag: paused ? "paused-billing" : "no-billing",
+    });
+  }
+
+  clients.sort((a, b) => b.mrr - a.mrr || a.name.localeCompare(b.name));
+
+  return {
+    pipelineName: readString(activePipeline ?? {}, ["name"]) ?? "Active Clients",
+    realMrr,
+    pausedMrr,
+    phantomMrr,
+    phantomCount,
+    payingClientCount: clients.filter((c) => c.mrr > 0).length,
+    noBillingCount: clients.filter((c) => c.flag === "no-billing").length,
+    clients,
+    accessIssues,
+    notes: [
+      "Real MRR counts active subscriptions belonging to identifiable clients only.",
+      phantomCount
+        ? `${phantomCount} active subscriptions on deleted/test contacts (${formatPhantom(phantomMrr)}/mo) are excluded — cancel these in GHL.`
+        : undefined,
+      "Clients flagged 'paying but marked inactive' have live billing while sitting in a Cancelled/Exiting stage.",
+    ].filter((n): n is string => Boolean(n)),
+  };
+}
+
+function formatPhantom(amount: number) {
+  return `$${Math.round(amount).toLocaleString()}`;
+}
+
 export async function getCommissionTrackerSnapshot(): Promise<CommissionTrackerSnapshot> {
   const configs = loadCommissionClientConfigs();
-  const clientSnapshots = await Promise.all(
-    configs.map((config) => buildCommissionClientSnapshot(config)),
-  );
-  const accessIssues = clientSnapshots.flatMap((client) => client.accessIssues);
+  const [clientSnapshots, activeBookResult] = await Promise.all([
+    Promise.all(configs.map((config) => buildCommissionClientSnapshot(config))),
+    loadSource("activeBook", getActiveBookSnapshot),
+  ]);
+  const accessIssues = [
+    ...clientSnapshots.flatMap((client) => client.accessIssues),
+    ...(activeBookResult.issue ? [activeBookResult.issue] : []),
+  ];
   const ledger = mergeLedger(clientSnapshots.flatMap((client) => client.ledger));
 
   return {
@@ -582,6 +788,7 @@ export async function getCommissionTrackerSnapshot(): Promise<CommissionTrackerS
       (total, client) => total + client.activeSubscriptionCount,
       0,
     ),
+    activeBook: activeBookResult.data ?? null,
     clients: clientSnapshots,
     ledger,
     accessIssues,
