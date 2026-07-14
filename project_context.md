@@ -139,8 +139,9 @@ $22,650), **$46,200 sent-but-unpaid invoices** (Martin Speiser alone 9 × $3,300
 Cancelled stage holds 30 opps (~$168,600 lifetime value) vs 15 active — the churn story.
 
 **No-billing clients, resolved per Jesse (2026-07-13):**
-- **Bear Olive & Ben Baker — don't chase.** Known situations (Ben = AT, terms pending);
-  not revenue leaks, leave them alone.
+- **Bear Olive & Ben Baker — contra deals (or similar value-exchange).** No cash billing
+  expected in GHL by design; not revenue leaks, don't chase. (Ben = AT; separate $250/mo +
+  mentoring arrangement pending AT launch.)
 - **Jennifer Bell = LV Solar = Alf Privitera's $1,500/mo sub.** Accounted for.
 - **Veronica Jones / Anstey Homes — open question.** Zero billing footprint in GHL across
   all 4 Anstey contact cards (Veronica, Phil Anstey, Cristina, company card) — no
