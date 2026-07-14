@@ -137,8 +137,9 @@ Confirmed 2026-07-13 by sweeping the full RT Digital ledger (773 transactions, 1
 Recovery pools: Scott's **paused $2,000/mo** sub, **$26,500 failed payments** (mostly Chris
 $22,650), **$46,200 sent-but-unpaid invoices** (Martin Speiser alone 9 × $3,300).
 
-**Scott reactivation plan (set 2026-07-14):** goal is to **unpause Scott's $2,000/mo sub
-Friday 2026-07-17, with a one-month grace period** — first charge lands ~2026-08-17. Book
+**Scott reactivation plan (set 2026-07-14, corrected):** **reactivation date is
+2026-08-17** — the unpause is agreed w/c 13 Jul with a one-month grace, so billing (and the
+$2,000/mo) resumes 17 August, not before. Book
 returns to $14,250/mo from mid-August (Jesse's share under the proposed CSM deal:
 $5,312.50/mo ≈ $1,226/wk). Expect **no Scott payment between Jun 16 and ~Aug 17** — that
 gap is planned grace, not churn; don't flag it as a failed recovery. Commission on Scott's
