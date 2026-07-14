@@ -478,7 +478,13 @@ export type ActiveBookClient = {
   stage?: string;
   mrr: number;
   subscriptionSince?: string;
-  flag?: "ok" | "not-in-pipeline" | "paying-but-marked-inactive" | "no-billing" | "paused-billing";
+  flag?:
+    | "ok"
+    | "not-in-pipeline"
+    | "paying-but-marked-inactive"
+    | "no-billing"
+    | "paused-billing"
+    | "manual-billing";
 };
 
 export type ActiveBookSnapshot = {

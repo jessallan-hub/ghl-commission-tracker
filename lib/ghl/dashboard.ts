@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import committedClientConfigs from "../../config/commission-clients.json";
+import manualMrrEntries from "../../config/manual-mrr.json";
 
 import { ghlRequest } from "./client";
 import { getGhlConfig } from "./config";
@@ -729,6 +730,35 @@ export async function getActiveBookSnapshot(): Promise<ActiveBookSnapshot> {
     });
   }
 
+  // Off-platform billers: clients who pay outside GHL, maintained by hand in
+  // config/manual-mrr.json. Upgrades their no-billing row (or adds one) and
+  // counts toward Real MRR.
+  const manualEntries = Array.isArray(manualMrrEntries) ? manualMrrEntries : [];
+
+  for (const entry of manualEntries) {
+    if (!isRecord(entry)) continue;
+    const contactId = readString(entry, ["contactId"]) ?? "";
+    const mrr = readNumber(entry, ["mrr"], 0);
+    if (!contactId || mrr <= 0) continue;
+    realMrr += mrr;
+    const existing = clients.find((c) => c.contactId === contactId);
+
+    if (existing) {
+      existing.mrr = mrr;
+      existing.flag = "manual-billing";
+      existing.company = existing.company ?? readString(entry, ["company"]);
+      continue;
+    }
+
+    clients.push({
+      contactId,
+      name: readString(entry, ["name"]) ?? "Manual entry",
+      company: readString(entry, ["company"]),
+      mrr,
+      flag: "manual-billing",
+    });
+  }
+
   clients.sort((a, b) => b.mrr - a.mrr || a.name.localeCompare(b.name));
 
   return {
@@ -743,6 +773,9 @@ export async function getActiveBookSnapshot(): Promise<ActiveBookSnapshot> {
     accessIssues,
     notes: [
       "Real MRR counts active subscriptions belonging to identifiable clients only.",
+      manualEntries.length
+        ? `${manualEntries.length} client(s) billed outside GHL are included from config/manual-mrr.json (flagged 'off-platform').`
+        : undefined,
       phantomCount
         ? `${phantomCount} active subscriptions on deleted/test contacts (${formatPhantom(phantomMrr)}/mo) are excluded — cancel these in GHL.`
         : undefined,

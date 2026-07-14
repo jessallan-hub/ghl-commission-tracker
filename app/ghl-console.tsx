@@ -1059,6 +1059,7 @@ const ACTIVE_BOOK_FLAG_LABELS: Record<string, string> = {
   "paying-but-marked-inactive": "Paying — exiting (contract run-off)",
   "no-billing": "No billing",
   "paused-billing": "Billing paused",
+  "manual-billing": "Off-platform billing (manual)",
 };
 
 function ActiveBookPanel({ book }: { book: ActiveBookSnapshot }) {
