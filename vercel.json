@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/csm-proposal.html",
+      "destination": "/csm-agreement.html",
+      "permanent": false
+    }
+  ]
+}
