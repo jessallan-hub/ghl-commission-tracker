@@ -1673,6 +1673,108 @@ td strong {
   font-weight: 650;
 }
 
+.issued-invoices {
+  border: 1px solid #cfd4bc;
+  border-radius: 10px;
+  background: rgba(255, 253, 246, 0.56);
+  padding: 22px 26px;
+  margin-top: 18px;
+}
+
+.issued-invoices-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.issued-invoices-head h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 540;
+  color: #172423;
+}
+
+.issued-invoices-head p {
+  margin: 4px 0 0;
+  max-width: 46ch;
+  color: #6d6f64;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.issued-invoices-stats {
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.issued-invoices-stat span {
+  display: block;
+  color: #64675c;
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.issued-invoices-stat strong {
+  display: block;
+  margin-top: 4px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 520;
+  color: #172423;
+}
+
+.issued-invoices-table-wrap {
+  overflow-x: auto;
+}
+
+.issued-invoices-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.issued-invoices-table th {
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #64675c;
+  padding: 6px 12px 8px 0;
+  border-bottom: 1.5px solid #bbb69d;
+}
+
+.issued-invoices-table td {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid #e0dcc9;
+  color: #2c332c;
+  font-weight: 600;
+  vertical-align: top;
+}
+
+.issued-invoices-table td small {
+  display: block;
+  margin-top: 3px;
+  max-width: 52ch;
+  color: #777568;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.issued-invoices-table .num,
+.issued-invoices-table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 .commission-kpis {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);

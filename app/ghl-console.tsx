@@ -21,6 +21,7 @@ import type {
 } from "@/lib/ghl";
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import issuedInvoices from "../config/issued-invoices.json";
 
 type ResultState = {
   title: string;
@@ -1035,6 +1036,9 @@ function CommissionTrackerPanel({
         <ActiveBookPanel book={snapshot.activeBook} />
       ) : null}
 
+      <IssuedInvoicesPanel />
+
+
       {snapshot.notes.length ? (
         <div className="commission-footnotes">
           {snapshot.notes.map((note) => (
@@ -1061,6 +1065,72 @@ const ACTIVE_BOOK_FLAG_LABELS: Record<string, string> = {
   "paused-billing": "Billing paused",
   "manual-billing": "Off-platform billing (manual)",
 };
+
+// Invoices Jesse has issued to Rich's entities. These are NOT sourced from GHL —
+// GHL only knows client-side SaaS payments, it has no idea what's been billed out.
+// Kept here so the money in and the money out sit in one view. Source of truth is
+// config/issued-invoices.json; the PDFs live outside the repo.
+function IssuedInvoicesPanel() {
+  const totalExGst = issuedInvoices.reduce((sum, inv) => sum + inv.exGst, 0);
+  const totalIncGst = issuedInvoices.reduce((sum, inv) => sum + inv.total, 0);
+
+  return (
+    <section className="issued-invoices" data-testid="issued-invoices">
+      <div className="issued-invoices-head">
+        <div>
+          <h3>Invoices Issued</h3>
+          <p>
+            Billed out by Jesse — entered manually, not read from GHL. GHL only
+            sees client payments in, never what has been invoiced out.
+          </p>
+        </div>
+        <div className="issued-invoices-stats">
+          <div className="issued-invoices-stat">
+            <span>Total ex GST</span>
+            <strong>{formatMoney(totalExGst, true)}</strong>
+          </div>
+          <div className="issued-invoices-stat">
+            <span>Total inc GST</span>
+            <strong>{formatMoney(totalIncGst, true)}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div className="issued-invoices-table-wrap">
+        <table className="issued-invoices-table">
+          <thead>
+            <tr>
+              <th>Invoice</th>
+              <th>Billed to</th>
+              <th>Description</th>
+              <th className="num">Ex GST</th>
+              <th className="num">GST</th>
+              <th className="num">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {issuedInvoices.map((inv) => (
+              <tr key={inv.number}>
+                <td>
+                  <strong>{inv.number}</strong>
+                  <small>{inv.issued}</small>
+                </td>
+                <td>{inv.billedTo}</td>
+                <td>
+                  {inv.description}
+                  {inv.note ? <small>{inv.note}</small> : null}
+                </td>
+                <td className="num">{formatMoney(inv.exGst, true)}</td>
+                <td className="num">{formatMoney(inv.gst, true)}</td>
+                <td className="num">{formatMoney(inv.total, true)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
 
 function ActiveBookPanel({ book }: { book: ActiveBookSnapshot }) {
   return (

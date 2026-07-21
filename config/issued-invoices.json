@@ -1,0 +1,24 @@
+[
+  {
+    "number": "INV-0055",
+    "issued": "2026-07-15",
+    "billedTo": "AT Network Pty Ltd",
+    "description": "Ads campaign setup, onboarding & management",
+    "exGst": 1750,
+    "gst": 175,
+    "total": 1925,
+    "status": "sent",
+    "note": "Half of the agreed settlement clearing prior work, split across two entities. Supersedes INV-0054 together with INV-0056."
+  },
+  {
+    "number": "INV-0056",
+    "issued": "2026-07-15",
+    "billedTo": "RT Digital",
+    "description": "Commission — Dr Damp & Strategize @ 20%",
+    "exGst": 1750,
+    "gst": 175,
+    "total": 1925,
+    "status": "sent",
+    "note": "Commission recalculated at 20% (reduced from 25%): Dr Damp setup $1,000 + monthlies $800; Strategize setup $800 + monthly $400 = $3,000, plus $500 AT onboarding = $3,500 ex GST, split evenly across INV-0055/0056."
+  }
+]
