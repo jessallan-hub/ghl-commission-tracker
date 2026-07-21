@@ -1775,6 +1775,212 @@ td strong {
   white-space: nowrap;
 }
 
+.issued-invoices-table tbody tr:not(.issued-invoice-detail-row) {
+  cursor: pointer;
+}
+
+.issued-invoices-table tbody tr:not(.issued-invoice-detail-row):hover td {
+  background: rgba(233, 230, 214, 0.4);
+}
+
+.issued-invoices-table tr.is-open td {
+  background: rgba(233, 230, 214, 0.55);
+  border-bottom-color: transparent;
+}
+
+.issued-invoices-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #2c332c;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.issued-invoices-toggle svg {
+  color: #8a8875;
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.issued-invoices-toggle svg.is-open {
+  transform: rotate(90deg);
+}
+
+.issued-invoices-toggle:hover svg {
+  color: #4f6b4a;
+}
+
+/* --- expanded invoice --- */
+
+.issued-invoice-detail-row td {
+  padding: 0 0 14px;
+  border-bottom: 1px solid #e0dcc9;
+  background: rgba(233, 230, 214, 0.55);
+}
+
+.issued-invoice-doc {
+  background: #fffdf8;
+  border: 1px solid #ddd9c4;
+  border-radius: 8px;
+  padding: 22px 24px;
+  max-width: 640px;
+  font-weight: 600;
+}
+
+.issued-invoice-doc-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e6e2d0;
+}
+
+.issued-invoice-doc-head span,
+.issued-invoice-billto span,
+.issued-invoice-basis > span,
+.issued-invoice-payment > span {
+  display: block;
+  color: #8a8875;
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.issued-invoice-doc-head strong {
+  display: block;
+  margin-top: 3px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 540;
+  color: #172423;
+}
+
+.issued-invoice-doc-head small {
+  display: block;
+  margin-top: 2px;
+  color: #777568;
+  font-size: 11.5px;
+}
+
+.issued-invoice-doc-meta {
+  text-align: right;
+}
+
+.issued-invoice-billto {
+  margin-top: 14px;
+}
+
+.issued-invoice-billto strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 14px;
+  color: #172423;
+}
+
+.issued-invoice-lines {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+.issued-invoice-lines td {
+  padding: 7px 0;
+  border-bottom: 1px solid #efece0;
+  color: #2c332c;
+}
+
+.issued-invoice-lines td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.issued-invoice-lines tr.grand td {
+  border-bottom: none;
+  border-top: 1.5px solid #bbb69d;
+  padding-top: 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 560;
+  color: #172423;
+}
+
+.issued-invoice-basis {
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: rgba(236, 233, 218, 0.5);
+  border-radius: 6px;
+}
+
+.issued-invoice-basis table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 12.5px;
+}
+
+.issued-invoice-basis td {
+  padding: 4px 0;
+  color: #64675c;
+}
+
+.issued-invoice-basis td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #2c332c;
+  white-space: nowrap;
+}
+
+.issued-invoice-basis tr.sum td {
+  padding-top: 7px;
+  border-top: 1px solid #cbc7b0;
+  font-weight: 800;
+  color: #172423;
+}
+
+.issued-invoice-basis p,
+.issued-invoice-note {
+  margin: 10px 0 0;
+  color: #777568;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.issued-invoice-payment {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e6e2d0;
+}
+
+.issued-invoice-payment dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px 20px;
+  margin: 8px 0 0;
+}
+
+.issued-invoice-payment dt {
+  color: #8a8875;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.issued-invoice-payment dd {
+  margin: 1px 0 0;
+  color: #2c332c;
+  font-size: 13px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
 .commission-kpis {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);

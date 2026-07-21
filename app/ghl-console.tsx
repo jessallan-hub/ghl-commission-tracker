@@ -20,7 +20,7 @@ import type {
   WorkflowIntelligenceSnapshot,
 } from "@/lib/ghl";
 import type { FormEvent, ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import issuedInvoices from "../config/issued-invoices.json";
 
 type ResultState = {
@@ -1071,6 +1071,7 @@ const ACTIVE_BOOK_FLAG_LABELS: Record<string, string> = {
 // Kept here so the money in and the money out sit in one view. Source of truth is
 // config/issued-invoices.json; the PDFs live outside the repo.
 function IssuedInvoicesPanel() {
+  const [expanded, setExpanded] = useState<string | null>(null);
   const totalExGst = issuedInvoices.reduce((sum, inv) => sum + inv.exGst, 0);
   const totalIncGst = issuedInvoices.reduce((sum, inv) => sum + inv.total, 0);
 
@@ -1109,22 +1110,160 @@ function IssuedInvoicesPanel() {
             </tr>
           </thead>
           <tbody>
-            {issuedInvoices.map((inv) => (
-              <tr key={inv.number}>
-                <td>
-                  <strong>{inv.number}</strong>
-                  <small>{inv.issued}</small>
-                </td>
-                <td>{inv.billedTo}</td>
-                <td>
-                  {inv.description}
-                  {inv.note ? <small>{inv.note}</small> : null}
-                </td>
-                <td className="num">{formatMoney(inv.exGst, true)}</td>
-                <td className="num">{formatMoney(inv.gst, true)}</td>
-                <td className="num">{formatMoney(inv.total, true)}</td>
-              </tr>
-            ))}
+            {issuedInvoices.map((inv) => {
+              const open = expanded === inv.number;
+              return (
+                <Fragment key={inv.number}>
+                  <tr
+                    className={open ? "is-open" : undefined}
+                    onClick={() => setExpanded(open ? null : inv.number)}
+                  >
+                    <td>
+                      <button
+                        type="button"
+                        className="issued-invoices-toggle"
+                        aria-expanded={open}
+                        aria-label={
+                          open
+                            ? `Hide full ${inv.number}`
+                            : `Show full ${inv.number}`
+                        }
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setExpanded(open ? null : inv.number);
+                        }}
+                      >
+                        <svg
+                          width="7"
+                          height="7"
+                          viewBox="0 0 10 10"
+                          className={open ? "is-open" : undefined}
+                          style={{ fill: "currentColor" }}
+                        >
+                          <path d="M1 0.5L9 5L1 9.5V0.5Z" />
+                        </svg>
+                        <strong>{inv.number}</strong>
+                      </button>
+                      <small>{inv.issued}</small>
+                    </td>
+                    <td>{inv.billedTo}</td>
+                    <td>{inv.description}</td>
+                    <td className="num">{formatMoney(inv.exGst, true)}</td>
+                    <td className="num">{formatMoney(inv.gst, true)}</td>
+                    <td className="num">{formatMoney(inv.total, true)}</td>
+                  </tr>
+
+                  {open ? (
+                    <tr className="issued-invoice-detail-row">
+                      <td colSpan={6}>
+                        <div className="issued-invoice-detail">
+                          <div className="issued-invoice-doc">
+                            <div className="issued-invoice-doc-head">
+                              <div>
+                                <span>Tax Invoice</span>
+                                <strong>{inv.from.name}</strong>
+                                <small>ABN: {inv.from.abn}</small>
+                              </div>
+                              <div className="issued-invoice-doc-meta">
+                                <span>Invoice No.</span>
+                                <strong>{inv.number}</strong>
+                                <small>{inv.issued}</small>
+                              </div>
+                            </div>
+
+                            <div className="issued-invoice-billto">
+                              <span>Bill to</span>
+                              <strong>{inv.billedTo}</strong>
+                            </div>
+
+                            <table className="issued-invoice-lines">
+                              <tbody>
+                                {inv.lineItems.map((item) => (
+                                  <tr key={item.label}>
+                                    <td>{item.label}</td>
+                                    <td className="num">
+                                      {formatMoney(item.amount, true)}
+                                    </td>
+                                  </tr>
+                                ))}
+                                <tr>
+                                  <td>Subtotal</td>
+                                  <td className="num">
+                                    {formatMoney(inv.exGst, true)}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>GST (10%)</td>
+                                  <td className="num">
+                                    {formatMoney(inv.gst, true)}
+                                  </td>
+                                </tr>
+                                <tr className="grand">
+                                  <td>Total</td>
+                                  <td className="num">
+                                    {formatMoney(inv.total, true)}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            {inv.basis.length ? (
+                              <div className="issued-invoice-basis">
+                                <span>Basis of settlement</span>
+                                <table>
+                                  <tbody>
+                                    {inv.basis.map((row) => (
+                                      <tr
+                                        key={row.label}
+                                        className={
+                                          row.subtotal ? "sum" : undefined
+                                        }
+                                      >
+                                        <td>{row.label}</td>
+                                        <td className="num">
+                                          {formatMoney(row.amount, true)}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                                {inv.basisNote ? <p>{inv.basisNote}</p> : null}
+                              </div>
+                            ) : null}
+
+                            {inv.note ? (
+                              <p className="issued-invoice-note">{inv.note}</p>
+                            ) : null}
+
+                            <div className="issued-invoice-payment">
+                              <span>Payment details</span>
+                              <dl>
+                                <div>
+                                  <dt>Account name</dt>
+                                  <dd>{inv.payment.accountName}</dd>
+                                </div>
+                                <div>
+                                  <dt>Bank</dt>
+                                  <dd>{inv.payment.bank}</dd>
+                                </div>
+                                <div>
+                                  <dt>BSB</dt>
+                                  <dd>{inv.payment.bsb}</dd>
+                                </div>
+                                <div>
+                                  <dt>Account number</dt>
+                                  <dd>{inv.payment.accountNumber}</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : null}
+                </Fragment>
+              );
+            })}
           </tbody>
         </table>
       </div>

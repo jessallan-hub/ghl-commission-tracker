@@ -8,7 +8,24 @@
     "gst": 175,
     "total": 1925,
     "status": "sent",
-    "note": "Half of the agreed settlement clearing prior work, split across two entities. Supersedes INV-0054 together with INV-0056."
+    "note": "Half of the agreed settlement clearing prior work, split across two entities. Supersedes INV-0054 together with INV-0056.",
+    "from": {
+      "name": "Jesse Allan",
+      "abn": "55 971 549 124"
+    },
+    "payment": {
+      "accountName": "Jesse Allan",
+      "bank": "St.George Bank",
+      "bsb": "112-879",
+      "accountNumber": "205975573"
+    },
+    "lineItems": [
+      {
+        "label": "Ads campaign setup, onboarding & management",
+        "amount": 1750
+      }
+    ],
+    "basis": []
   },
   {
     "number": "INV-0056",
@@ -19,6 +36,32 @@
     "gst": 175,
     "total": 1925,
     "status": "sent",
-    "note": "Commission recalculated at 20% (reduced from 25%): Dr Damp setup $1,000 + monthlies $800; Strategize setup $800 + monthly $400 = $3,000, plus $500 AT onboarding = $3,500 ex GST, split evenly across INV-0055/0056."
+    "note": "Commission recalculated at 20% (reduced from 25%). Partial settlement — the RT Digital half. Supersedes INV-0054 together with INV-0055.",
+    "from": {
+      "name": "Jesse Allan",
+      "abn": "55 971 549 124"
+    },
+    "payment": {
+      "accountName": "Jesse Allan",
+      "bank": "St.George Bank",
+      "bsb": "112-879",
+      "accountNumber": "205975573"
+    },
+    "lineItems": [
+      {
+        "label": "Commission — Dr Damp & Strategize @ 20%",
+        "amount": 1750
+      }
+    ],
+    "basis": [
+      { "label": "Dr Damp (Scott) — setup 20% × $5,000", "amount": 1000 },
+      { "label": "Dr Damp (Scott) — monthlies 2 × (20% × $2,000)", "amount": 800 },
+      { "label": "Strategize (Chris) — setup 20% × $4,000", "amount": 800 },
+      { "label": "Strategize (Chris) — monthly 20% × $2,000", "amount": 400 },
+      { "label": "Commission subtotal @ 20%", "amount": 3000, "subtotal": true },
+      { "label": "AT onboarding fee", "amount": 500 },
+      { "label": "Total settlement (ex GST)", "amount": 3500, "subtotal": true }
+    ],
+    "basisNote": "Split evenly across two invoices at $1,750 ex GST each. This invoice is the RT Digital half; the balance is invoiced to AT Network Pty Ltd (INV-0055)."
   }
 ]
