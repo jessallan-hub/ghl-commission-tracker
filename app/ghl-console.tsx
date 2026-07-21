@@ -811,7 +811,6 @@ function CommissionTrackerPanel({
         label="Commissions"
         title="Commission Tracker"
         summary={`${formatMoney(snapshot.totalCollected, true)} collected · ${formatMoney(snapshot.totalCommissionEarned, true)} commission`}
-        defaultOpen
       >
       <section className="commission-agency-card" aria-label="RT Digital agency summary">
         <div className="commission-agency-identity">
