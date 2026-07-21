@@ -1,0 +1,40 @@
+{
+  "title": "CSM & Growth — 30-day test run",
+  "parties": "Jesse Allan → Rich · RT Digital active book",
+  "issued": "2026-07-15",
+  "headline": "$2,500 guaranteed minimum · 16 Jul – 15 Aug",
+  "link": "/csm-agreement.html",
+  "terms": [
+    {
+      "label": "Fixed fee, minimum",
+      "value": "$2,500",
+      "detail": "Guaranteed minimum for the 30-day period, regardless of the book. No base, no separate commission."
+    },
+    {
+      "label": "How it's set",
+      "value": "25%",
+      "detail": "Of the ~$10,000 realistic active MRR being taken over."
+    },
+    {
+      "label": "Term",
+      "value": "16 Jul – 15 Aug",
+      "detail": "Reviewed at month-end. 30-day exit either side."
+    }
+  ],
+  "notes": [
+    "A floor, not a ceiling — doesn't drop if a client churns or runs off, and moves up if new clients land mid-month.",
+    "Recurring revenue only. No setup-fee percentage this round; the new offer isn't defined yet, so there's nothing to bill against.",
+    "Billed to AT Network or RT Digital, whichever suits cash flow. Invoiced at the end of the 30 days."
+  ],
+  "covered": [
+    "Retention across the active book — check-in cadence, health reads, correct staging, saving at-risk clients.",
+    "Oversight of the RT Digital / Trade AI ads already running.",
+    "The live revenue and commission dashboard."
+  ],
+  "separate": [
+    "New offers or campaigns — Google Ads product, outbound sequences, landing pages, creative.",
+    "Build or dev work — websites, funnels, new CRM or workflow builds.",
+    "Marketing for AT Network or any entity outside the RT Digital active book.",
+    "Rolling out new products to partners (e.g. white-label CRM)."
+  ]
+}

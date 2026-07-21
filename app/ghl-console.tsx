@@ -22,6 +22,7 @@ import type {
 import type { FormEvent, ReactNode } from "react";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import issuedInvoices from "../config/issued-invoices.json";
+import agreement from "../config/agreement.json";
 
 type ResultState = {
   title: string;
@@ -876,6 +877,8 @@ function CommissionTrackerPanel({
         </div>
       </div>
 
+      <AgreementStrip />
+
       <section className="commission-agency-card" aria-label="RT Digital agency summary">
         <div className="commission-agency-identity">
           <div className="commission-agency-mark" aria-hidden="true">RT</div>
@@ -1065,6 +1068,92 @@ const ACTIVE_BOOK_FLAG_LABELS: Record<string, string> = {
   "paused-billing": "Billing paused",
   "manual-billing": "Off-platform billing (manual)",
 };
+
+// The commercial terms these numbers sit under. Collapsed to one line by
+// default — it's context, not the main event — and expands to the headline
+// terms plus the scope boundary. Full document is linked, not duplicated.
+function AgreementStrip() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <section
+      className={`agreement-strip${open ? " is-open" : ""}`}
+      data-testid="agreement-strip"
+    >
+      <button
+        type="button"
+        className="agreement-strip-bar"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <svg
+          width="7"
+          height="7"
+          viewBox="0 0 10 10"
+          className={open ? "is-open" : undefined}
+          style={{ fill: "currentColor" }}
+        >
+          <path d="M1 0.5L9 5L1 9.5V0.5Z" />
+        </svg>
+        <span className="agreement-strip-label">Agreement</span>
+        <strong>{agreement.title}</strong>
+        <em>{agreement.headline}</em>
+      </button>
+
+      {open ? (
+        <div className="agreement-strip-body">
+          <p className="agreement-strip-parties">
+            {agreement.parties} · {agreement.issued}
+          </p>
+
+          <div className="agreement-strip-terms">
+            {agreement.terms.map((term) => (
+              <div key={term.label}>
+                <span>{term.label}</span>
+                <strong>{term.value}</strong>
+                <small>{term.detail}</small>
+              </div>
+            ))}
+          </div>
+
+          <ul className="agreement-strip-notes">
+            {agreement.notes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+
+          <div className="agreement-strip-scope">
+            <div>
+              <span>Covered by the flat fee</span>
+              <ul>
+                {agreement.covered.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <span>Separate scope — quoted before it starts</span>
+              <ul>
+                {agreement.separate.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <a
+            className="agreement-strip-link"
+            href={agreement.link}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read the full agreement →
+          </a>
+        </div>
+      ) : null}
+    </section>
+  );
+}
 
 // Invoices Jesse has issued to Rich's entities. These are NOT sourced from GHL —
 // GHL only knows client-side SaaS payments, it has no idea what's been billed out.
