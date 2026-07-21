@@ -1673,27 +1673,27 @@ td strong {
   font-weight: 650;
 }
 
-/* --- agreement strip --- */
+/* --- fin sections: the uniform stack of collapsible bars --- */
 
-.agreement-strip {
+.fin-section {
   border: 1px solid #dcdcc8;
   border-radius: 8px;
   background: rgba(255, 253, 246, 0.5);
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   overflow: hidden;
 }
 
-.agreement-strip.is-open {
+.fin-section.is-open {
   background: rgba(255, 253, 246, 0.78);
   border-color: #cfd4bc;
 }
 
-.agreement-strip-bar {
+.fin-section-bar {
   display: flex;
   align-items: baseline;
   gap: 10px;
   width: 100%;
-  padding: 11px 18px;
+  padding: 12px 18px;
   border: none;
   background: none;
   font: inherit;
@@ -1702,35 +1702,36 @@ td strong {
   flex-wrap: wrap;
 }
 
-.agreement-strip-bar:hover {
+.fin-section-bar:hover {
   background: rgba(233, 230, 214, 0.35);
 }
 
-.agreement-strip-bar svg {
+.fin-section-bar svg {
   color: #9a9784;
   transition: transform 0.15s ease;
   flex-shrink: 0;
 }
 
-.agreement-strip-bar svg.is-open {
+.fin-section-bar svg.is-open {
   transform: rotate(90deg);
 }
 
-.agreement-strip-label {
+.fin-section-label {
   color: #8a8875;
   font-size: 9.5px;
   font-weight: 900;
   letter-spacing: 0.13em;
   text-transform: uppercase;
+  min-width: 88px;
 }
 
-.agreement-strip-bar strong {
+.fin-section-bar strong {
   color: #2c332c;
   font-size: 13.5px;
   font-weight: 700;
 }
 
-.agreement-strip-bar em {
+.fin-section-bar em {
   color: #4f6b4a;
   font-size: 12.5px;
   font-style: normal;
@@ -1739,22 +1740,41 @@ td strong {
   font-variant-numeric: tabular-nums;
 }
 
-/* Portrait, left-aligned, the left two-thirds of the strip — Jesse wants the
-   whole agreement readable in place, not a summary spread wide. */
-.agreement-strip-body {
-  padding: 4px 18px 24px;
+.fin-section-body {
+  padding: 16px 18px 24px;
   border-top: 1px solid #e6e2d0;
+}
+
+/* Panels that carry their own card chrome get de-framed when nested inside
+   a fin-section — the bar already provides the frame and the title. */
+.fin-section-body .active-book,
+.fin-section-body .issued-invoices {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  margin-top: 0;
+}
+
+.fin-section-body .active-book-head h3,
+.fin-section-body .issued-invoices-head h3 {
+  display: none;
+}
+
+/* Portrait, left-aligned, the left two-thirds — Jesse wants the whole
+   agreement readable in place, not a summary spread wide. */
+.agreement-doc {
   max-width: 66%;
 }
 
 @media (max-width: 1000px) {
-  .agreement-strip-body {
+  .agreement-doc {
     max-width: none;
   }
 }
 
 .agreement-strip-eyebrow {
-  margin: 16px 0 0;
+  margin: 0;
   color: #9b472b;
   font-size: 9.5px;
   font-weight: 900;

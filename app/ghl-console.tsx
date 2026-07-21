@@ -867,8 +867,8 @@ function CommissionTrackerPanel({
             <span />
           </div>
           <div>
-            <h2>Commission Tracker</h2>
-            <p>Agency operations · commissions overview</p>
+            <h2>Jesse × RT Digital — Financials</h2>
+            <p>Agency operations · commissions &amp; financials</p>
           </div>
         </div>
         <div className="commission-date-pill">
@@ -879,6 +879,13 @@ function CommissionTrackerPanel({
 
       <AgreementStrip />
 
+      <FinSection
+        id="commissions"
+        label="Commissions"
+        title="Commission Tracker"
+        summary={`${formatMoney(snapshot.totalCollected, true)} collected · ${formatMoney(snapshot.totalCommissionEarned, true)} commission`}
+        defaultOpen
+      >
       <section className="commission-agency-card" aria-label="RT Digital agency summary">
         <div className="commission-agency-identity">
           <div className="commission-agency-mark" aria-hidden="true">RT</div>
@@ -1035,13 +1042,6 @@ function CommissionTrackerPanel({
         </div>
       ) : null}
 
-      {snapshot.activeBook ? (
-        <ActiveBookPanel book={snapshot.activeBook} />
-      ) : null}
-
-      <IssuedInvoicesPanel />
-
-
       {snapshot.notes.length ? (
         <div className="commission-footnotes">
           {snapshot.notes.map((note) => (
@@ -1056,6 +1056,30 @@ function CommissionTrackerPanel({
           {snapshot.accessIssues.map((issue) => issue.source).join(", ")}
         </section>
       ) : null}
+      </FinSection>
+
+      {snapshot.activeBook ? (
+        <FinSection
+          id="active-clients"
+          label="Clients"
+          title="Active Clients"
+          summary={`${formatMoney(snapshot.activeBook.realMrr)}/mo real MRR · ${formatNumber(snapshot.activeBook.payingClientCount)} paying`}
+        >
+          <ActiveBookPanel book={snapshot.activeBook} />
+        </FinSection>
+      ) : null}
+
+      <FinSection
+        id="invoices"
+        label="Billing"
+        title="Invoices Issued"
+        summary={`${formatMoney(
+          issuedInvoices.reduce((sum, inv) => sum + inv.total, 0),
+          true,
+        )} inc GST · ${issuedInvoices.length} invoices`}
+      >
+        <IssuedInvoicesPanel />
+      </FinSection>
     </section>
   );
 }
@@ -1069,20 +1093,34 @@ const ACTIVE_BOOK_FLAG_LABELS: Record<string, string> = {
   "manual-billing": "Off-platform billing (manual)",
 };
 
-// The commercial terms these numbers sit under. Collapsed to one line by
-// default — it's context, not the main event — and expands to the headline
-// terms plus the scope boundary. Full document is linked, not duplicated.
-function AgreementStrip() {
-  const [open, setOpen] = useState(false);
+// One uniform collapsed bar per area of the page — Agreement, Commission
+// Tracker, Active Clients, Invoices Issued — all the same width and framing,
+// so the view reads as a stack of quiet headlines that open on demand.
+function FinSection({
+  id,
+  label,
+  title,
+  summary,
+  defaultOpen = false,
+  children,
+}: {
+  id: string;
+  label: string;
+  title: string;
+  summary?: string;
+  defaultOpen?: boolean;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
 
   return (
     <section
-      className={`agreement-strip${open ? " is-open" : ""}`}
-      data-testid="agreement-strip"
+      className={`fin-section${open ? " is-open" : ""}`}
+      data-testid={`fin-${id}`}
     >
       <button
         type="button"
-        className="agreement-strip-bar"
+        className="fin-section-bar"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
@@ -1095,13 +1133,28 @@ function AgreementStrip() {
         >
           <path d="M1 0.5L9 5L1 9.5V0.5Z" />
         </svg>
-        <span className="agreement-strip-label">Agreement</span>
-        <strong>{agreement.title}</strong>
-        <em>{agreement.headline}</em>
+        <span className="fin-section-label">{label}</span>
+        <strong>{title}</strong>
+        {summary ? <em>{summary}</em> : null}
       </button>
 
-      {open ? (
-        <div className="agreement-strip-body">
+      {open ? <div className="fin-section-body">{children}</div> : null}
+    </section>
+  );
+}
+
+// The commercial terms these numbers sit under. Collapsed to one line by
+// default — it's context, not the main event — and expands to the complete
+// agreement, portrait, in the left two-thirds.
+function AgreementStrip() {
+  return (
+    <FinSection
+      id="agreement"
+      label="Agreement"
+      title={agreement.title}
+      summary={agreement.headline}
+    >
+      <div className="agreement-doc">
           <p className="agreement-strip-eyebrow">{agreement.eyebrow}</p>
           <h4 className="agreement-strip-title">{agreement.fullTitle}</h4>
           <p className="agreement-strip-parties">{agreement.parties}</p>
@@ -1172,17 +1225,16 @@ function AgreementStrip() {
             ))}
           </div>
 
-          <a
-            className="agreement-strip-link"
-            href={agreement.link}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Read the full agreement →
-          </a>
-        </div>
-      ) : null}
-    </section>
+        <a
+          className="agreement-strip-link"
+          href={agreement.link}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Read the full agreement →
+        </a>
+      </div>
+    </FinSection>
   );
 }
 
