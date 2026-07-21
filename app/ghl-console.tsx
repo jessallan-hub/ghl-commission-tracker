@@ -310,60 +310,10 @@ export default function GhlConsole() {
 
   return (
     <main className="shell">
-      <header className="topbar">
-        <div className="title-block">
-          <h1>{selectedAccount ? selectedAccount.name : "GHL Test Lab"}</h1>
-          <p>
-            {selectedAccount
-              ? "Choose a module for this sub-account, test one workflow, then come back to the hub."
-              : "Choose a sub-account, then open the module you want to test."}
-          </p>
-        </div>
-        <div className="toolbar">
-          {selectedAccount ? (
-            <button
-              className="secondary"
-              onClick={returnToFoyer}
-              type="button"
-            >
-              Accounts
-            </button>
-          ) : null}
-          {selectedModule !== "home" ? (
-            <button
-              className="secondary"
-              onClick={() => setSelectedModule("home")}
-              type="button"
-            >
-              Home
-            </button>
-          ) : null}
-          {selectedModuleNeedsDashboard ? (
-            <button
-              className="secondary"
-              data-testid="refresh-dashboard"
-              disabled={dashboardBusy}
-              onClick={loadDashboard}
-              type="button"
-            >
-              Refresh
-            </button>
-          ) : null}
-          {selectedModuleNeedsCommission ? (
-            <button
-              className="secondary"
-              data-testid="refresh-commission"
-              disabled={commissionBusy}
-              onClick={loadCommissionTracker}
-              type="button"
-            >
-              Refresh
-            </button>
-          ) : null}
-          <span className="pill ok">Connected locally</span>
-        </div>
-      </header>
-
+      {/* Shell chrome (topbar, module nav, status strip, account foyer) removed
+          2026-07-21 — Jesse only uses the financials view, so the app lands
+          straight on it. The other modules' code is intact below but pinned
+          off; selectedModule stays "commissions". */}
       {!selectedAccount ? (
         <AccountFoyer onSelect={enterAccount} />
       ) : selectedModule === "home" ? (
@@ -375,29 +325,6 @@ export default function GhlConsole() {
         />
       ) : (
         <>
-          <ModuleNav
-            account={selectedAccount}
-            selectedModule={selectedModule}
-            onSelect={setSelectedModule}
-          />
-
-          <section className="status-strip" aria-label="Integration status">
-            <StatusItem label="Base URL" value="services.leadconnectorhq.com" />
-            <StatusItem label="Auth" value="Private Integration Token" />
-            <StatusItem
-              label="Updated"
-              value={
-                selectedModuleNeedsCommission
-                  ? commissionSnapshot
-                    ? formatDate(commissionSnapshot.generatedAt)
-                    : "Not loaded"
-                  : snapshot
-                    ? formatDate(snapshot.generatedAt)
-                    : "Not loaded"
-              }
-            />
-          </section>
-
           {commissionError ? (
             <section className="notice danger" data-testid="commission-error">
               {commissionError}
