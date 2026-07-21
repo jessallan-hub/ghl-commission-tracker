@@ -1,6 +1,6 @@
 # Project Context — GHL Commission Tracker
 
-*Last updated: 2026-07-13 (evening — active book discovery + Rich offer)*
+*Last updated: 2026-07-17 (CSM agreement finalised — flat fee replaced base+percentage)*
 
 ## What this is
 
@@ -163,10 +163,19 @@ Cancelled stage holds 30 opps (~$168,600 lifetime value) vs 15 active — the ch
   Chris setup 25%×$4,000 = $1,000; Chris monthly 25%×$2,000 = $500; AT onboarding $500.
   Basis: **Rich defines the net** (Scott $7,500 gross → $5,000 net); monthlies net of GST.
   Jesse **is GST registered**. Artifact: claude.ai/code/artifact/7598105e-…
-- **CSM offer to Rich (drafted, not yet sent): $1,750/mo base + 25% of collected
-  active-book MRR net of GST** ≈ $4,812/mo ≈ $1,110/wk at today's book ($12,250 incl. off-platform). Replaces per-client
-  monthly commissions going forward; INV-0054 stands; 30-day exit. Negotiation notes: at 25%,
-  run-off completion costs Jesse ~$437/mo (self-underwritten churn risk — use as counter);
-  fallback structure $1,000 base + 30%. Artifact: claude.ai/code/artifact/c17e41aa-…
+- **CSM agreement to Rich — SUPERSEDED the base+percentage draft (2026-07-15).** Final
+  structure is a **flat $2,500 guaranteed minimum for a 30-day test run (16 Jul – 15 Aug)**,
+  set as 25% of the ~$10,000 realistic active MRR being taken over. No base, no separate
+  commission, no setup-fee percentage this round (new offer isn't defined yet, nothing to
+  bill against). It's a floor not a ceiling: doesn't drop if a client churns or runs off,
+  moves up if new clients land mid-month. Billed to AT Network or RT Digital (whichever
+  suits cash flow), invoiced at end of the 30 days. 30-day exit either side, reviewed at
+  month-end. Scope is deliberately fenced: retention across the active book, RT Digital /
+  Trade AI ads oversight, and the live revenue dashboard — everything else (new offers,
+  campaigns, build/dev work, AT Network marketing, partner rollouts) gets scoped and quoted
+  separately before starting. Live doc: `public/csm-agreement.html` (renamed from
+  csm-proposal.html; `vercel.json` redirects the old URL).
+  - *Earlier draft, now dead: $1,750/mo base + 25% of collected active-book MRR net of GST
+    ≈ $4,812/mo. Superseded by the flat fee above — don't quote these numbers.*
 - Separate AT deal: $250/mo CSM retainer + "Cooker Burr's Clan" mentoring access
   (valued $777/mo) once AT ads go live.
