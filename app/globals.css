@@ -1790,15 +1790,41 @@ td strong {
 
 .issued-invoices-toggle {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  align-items: baseline;
+  gap: 7px;
   padding: 0;
   border: none;
   background: none;
   color: #2c332c;
   font: inherit;
   font-weight: 600;
+  text-align: left;
   cursor: pointer;
+}
+
+.issued-invoices-toggle small {
+  display: block;
+  margin-top: 1px;
+  color: #777568;
+  font-weight: 600;
+}
+
+.issued-invoices-expand-all {
+  align-self: center;
+  padding: 6px 12px;
+  border: 1px solid #cfd4bc;
+  border-radius: 999px;
+  background: rgba(255, 253, 246, 0.7);
+  color: #4f6b4a;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.issued-invoices-expand-all:hover {
+  background: #f2f0e4;
+  border-color: #b9bfa2;
 }
 
 .issued-invoices-toggle svg {
@@ -1818,18 +1844,34 @@ td strong {
 /* --- expanded invoice --- */
 
 .issued-invoice-detail-row td {
-  padding: 0 0 14px;
+  padding: 0 0 16px;
   border-bottom: 1px solid #e0dcc9;
   background: rgba(233, 230, 214, 0.55);
 }
 
+/* Full width of the table rather than a narrow card stranded in whitespace.
+   The inner grid keeps the invoice body readable at that width. */
 .issued-invoice-doc {
   background: #fffdf8;
   border: 1px solid #ddd9c4;
   border-radius: 8px;
-  padding: 22px 24px;
-  max-width: 640px;
+  padding: 24px 28px;
   font-weight: 600;
+}
+
+.issued-invoice-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .issued-invoice-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
 }
 
 .issued-invoice-doc-head {
@@ -1914,8 +1956,7 @@ td strong {
 }
 
 .issued-invoice-basis {
-  margin-top: 18px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   background: rgba(236, 233, 218, 0.5);
   border-radius: 6px;
 }
