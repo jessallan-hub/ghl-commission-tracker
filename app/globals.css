@@ -1739,21 +1739,71 @@ td strong {
   font-variant-numeric: tabular-nums;
 }
 
+/* Portrait, left-aligned, the left two-thirds of the strip — Jesse wants the
+   whole agreement readable in place, not a summary spread wide. */
 .agreement-strip-body {
-  padding: 4px 18px 20px;
+  padding: 4px 18px 24px;
   border-top: 1px solid #e6e2d0;
+  max-width: 66%;
+}
+
+@media (max-width: 1000px) {
+  .agreement-strip-body {
+    max-width: none;
+  }
+}
+
+.agreement-strip-eyebrow {
+  margin: 16px 0 0;
+  color: #9b472b;
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.agreement-strip-title {
+  margin: 6px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 540;
+  line-height: 1.25;
+  color: #172423;
 }
 
 .agreement-strip-parties {
-  margin: 14px 0 0;
+  margin: 5px 0 0;
   color: #8a8875;
   font-size: 11.5px;
   font-weight: 700;
 }
 
+.agreement-strip-prose {
+  margin: 14px 0 0;
+  color: #4a4f47;
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.65;
+}
+
+.agreement-strip-prose strong {
+  color: #2c332c;
+  font-weight: 800;
+}
+
+.agreement-strip-section {
+  margin: 24px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #e6e2d0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 560;
+  color: #172423;
+}
+
 .agreement-strip-terms {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 18px 26px;
   margin-top: 14px;
 }
@@ -1814,13 +1864,47 @@ td strong {
   background: #b9bfa2;
 }
 
-.agreement-strip-scope {
+.agreement-strip-own {
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.agreement-strip-own > div {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px 28px;
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid #e6e2d0;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.agreement-strip-own dt {
+  color: #2c332c;
+  font-size: 12px;
+  font-weight: 800;
+  padding-top: 1px;
+}
+
+.agreement-strip-own dd {
+  margin: 0;
+  color: #4a4f47;
+  font-size: 12.5px;
+  font-weight: 550;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .agreement-strip-own > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+}
+
+.agreement-strip-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 16px;
 }
 
 .agreement-strip-scope > div > span {
@@ -1847,9 +1931,24 @@ td strong {
   line-height: 1.5;
 }
 
+.agreement-strip-signatures {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid #e6e2d0;
+}
+
+.agreement-strip-signatures span {
+  color: #8a8875;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
 .agreement-strip-link {
   display: inline-block;
-  margin-top: 18px;
+  margin-top: 20px;
   color: #4f6b4a;
   font-size: 12px;
   font-weight: 800;

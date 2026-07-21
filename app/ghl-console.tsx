@@ -1102,10 +1102,15 @@ function AgreementStrip() {
 
       {open ? (
         <div className="agreement-strip-body">
-          <p className="agreement-strip-parties">
-            {agreement.parties} · {agreement.issued}
+          <p className="agreement-strip-eyebrow">{agreement.eyebrow}</p>
+          <h4 className="agreement-strip-title">{agreement.fullTitle}</h4>
+          <p className="agreement-strip-parties">{agreement.parties}</p>
+
+          <p className="agreement-strip-prose">
+            <strong>The short version:</strong> {agreement.shortVersion}
           </p>
 
+          <h5 className="agreement-strip-section">The deal: next 30 days</h5>
           <div className="agreement-strip-terms">
             {agreement.terms.map((term) => (
               <div key={term.label}>
@@ -1122,9 +1127,22 @@ function AgreementStrip() {
             ))}
           </ul>
 
+          <h5 className="agreement-strip-section">What I own for that</h5>
+          <dl className="agreement-strip-own">
+            {agreement.own.map((row) => (
+              <div key={row.area}>
+                <dt>{row.area}</dt>
+                <dd>{row.commitment}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <h5 className="agreement-strip-section">Scope, and where it stops</h5>
+          <p className="agreement-strip-prose">{agreement.scopeIntro}</p>
+
           <div className="agreement-strip-scope">
             <div>
-              <span>Covered by the flat fee</span>
+              <span>Covered by the flat $2,500</span>
               <ul>
                 {agreement.covered.map((item) => (
                   <li key={item}>{item}</li>
@@ -1132,13 +1150,26 @@ function AgreementStrip() {
               </ul>
             </div>
             <div>
-              <span>Separate scope — quoted before it starts</span>
+              <span>Separate scope — quoted and agreed before I start</span>
               <ul>
                 {agreement.separate.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
+          </div>
+
+          <p className="agreement-strip-prose">{agreement.scopeHow}</p>
+
+          <h5 className="agreement-strip-section">
+            Where this goes after 30 days
+          </h5>
+          <p className="agreement-strip-prose">{agreement.after30}</p>
+
+          <div className="agreement-strip-signatures">
+            {agreement.signatures.map((sig) => (
+              <span key={sig}>{sig}</span>
+            ))}
           </div>
 
           <a

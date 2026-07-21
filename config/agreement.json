@@ -1,9 +1,12 @@
 {
   "title": "CSM & Growth — 30-day test run",
-  "parties": "Jesse Allan → Rich · RT Digital active book",
+  "eyebrow": "Agreement · Confidential",
+  "fullTitle": "CSM & Growth: a 30-day test run for the RT Digital active book",
+  "parties": "Jesse Allan → Rich · 15 July 2026",
   "issued": "2026-07-15",
   "headline": "$2,500 guaranteed minimum · 16 Jul – 15 Aug",
   "link": "/csm-agreement.html",
+  "shortVersion": "For the next 30 days I take ownership of the active book, covering retention, billing health, and client success, on a single fixed fee. No base-plus-percentage, no moving parts: one number, one month, then we review. That $2,500 is a guaranteed minimum for the month; it holds regardless of what the MRR book does. Separately, we clear the past bill on reduced terms so the decks are clean (invoices sent). If we get runs on the board this month, we renegotiate upward from a position of proof.",
   "terms": [
     {
       "label": "Fixed fee, minimum",
@@ -22,19 +25,37 @@
     }
   ],
   "notes": [
-    "A floor, not a ceiling — doesn't drop if a client churns or runs off, and moves up if new clients land mid-month.",
-    "Recurring revenue only. No setup-fee percentage this round; the new offer isn't defined yet, so there's nothing to bill against.",
+    "Recurring revenue only. No setup-fee percentage this round, because the new offer isn't defined yet, so there's nothing to bill against. We'll price that in separately once it's live.",
+    "A floor, not a ceiling. The $2,500 is the minimum for the month regardless of what the MRR book does; it doesn't drop if a client churns or runs off. And it moves up if new clients land mid-month. The ~$10,000 was today's realistic figure, not a cap.",
     "Billed to AT Network or RT Digital, whichever suits cash flow. Invoiced at the end of the 30 days."
   ],
+  "own": [
+    {
+      "area": "Retention",
+      "commitment": "Every active client called and brought into the fold: a real check-in cadence, health read, and an early flag before anyone churns, not after. I own the client relationship end-to-end."
+    },
+    {
+      "area": "Ad ops oversight",
+      "commitment": "Own the RT Digital / Trade AI ads relationship: brief and ride the ads contractor, check the lead forms actually fire, make sure leads land where they should."
+    },
+    {
+      "area": "Reporting",
+      "commitment": "Live revenue dashboard (already built) so you see MRR, risk flags, and the numbers behind my fee, same source, no arguments."
+    }
+  ],
+  "scopeIntro": "The flat $2,500 covers client success for the RT Digital active book, and that's it. That's deliberate: it keeps the number honest and keeps one fee from quietly turning into ten jobs. New ideas are genuinely welcome, and there are plenty of good ones, but anything outside CSM gets scoped and quoted on its own before I pick it up. More often than not I'll quote it at $0 and do it anyway. This isn't about charging for every extra; it's about keeping an active record of the work that sits above CSM. I'll go above and beyond gladly, but it should be recognised as exactly that: not as anything owing, but as context that counts when we next talk terms.",
   "covered": [
-    "Retention across the active book — check-in cadence, health reads, correct staging, saving at-risk clients.",
-    "Oversight of the RT Digital / Trade AI ads already running.",
+    "Retention across the active book: check-in cadence, health reads, correct staging, saving at-risk clients.",
+    "Oversight of the RT Digital / Trade AI ads already running, making sure leads flow and land where they should.",
     "The live revenue and commission dashboard."
   ],
   "separate": [
-    "New offers or campaigns — Google Ads product, outbound sequences, landing pages, creative.",
-    "Build or dev work — websites, funnels, new CRM or workflow builds.",
-    "Marketing for AT Network or any entity outside the RT Digital active book.",
-    "Rolling out new products to partners (e.g. white-label CRM)."
-  ]
+    "New offers or campaigns: the Google Ads product, outbound email and text sequences, landing pages, creative.",
+    "Build or dev work: websites, funnels, new CRM or workflow builds, product and onboarding setups.",
+    "Marketing or ad work for AT Network, or any entity other than the RT Digital active book.",
+    "Rolling out new products to partners (for example, white-label CRM)."
+  ],
+  "scopeHow": "How it works: you send the idea, I come back with scope and a price, we both say yes, then it starts. Nothing outside CSM comes out of the $2,500, and nothing starts without a yes on both sides.",
+  "after30": "This month is the proof. If retention holds and we decide to add the growth work, that gets scoped and priced on its own rather than living inside this flat fee, and we map the path to me carrying more of the book. Short version: get the wins on the board this month, then build the real arrangement on top of something that's working.",
+  "signatures": ["Jesse Allan · Date", "Rich · AT Network / RT Digital · Date"]
 }
